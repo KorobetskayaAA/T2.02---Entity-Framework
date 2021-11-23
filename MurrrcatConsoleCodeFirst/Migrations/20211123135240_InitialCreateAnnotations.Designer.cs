@@ -10,8 +10,8 @@ using MurrrcatConsoleCodeFirst.DAL;
 namespace MurrrcatConsoleCodeFirst.Migrations
 {
     [DbContext(typeof(MurrcatContext))]
-    [Migration("20211123130455_InitialCreateConventions")]
-    partial class InitialCreateConventions
+    [Migration("20211123135240_InitialCreateAnnotations")]
+    partial class InitialCreateAnnotations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,7 +27,7 @@ namespace MurrrcatConsoleCodeFirst.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("CatsId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("CategoriesId", "CatsId");
 
@@ -39,21 +39,24 @@ namespace MurrrcatConsoleCodeFirst.Migrations
             modelBuilder.Entity("MurrrcatConsoleCodeFirst.DAL.Cat", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<float>("CutenessSum")
                         .HasColumnType("real");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("ntext");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<decimal?>("OldPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("OwnerId")
+                    b.Property<int>("OwnerId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
@@ -76,11 +79,10 @@ namespace MurrrcatConsoleCodeFirst.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -90,15 +92,19 @@ namespace MurrrcatConsoleCodeFirst.Migrations
             modelBuilder.Entity("MurrrcatConsoleCodeFirst.DAL.Owner", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("Contacts")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -124,7 +130,9 @@ namespace MurrrcatConsoleCodeFirst.Migrations
                 {
                     b.HasOne("MurrrcatConsoleCodeFirst.DAL.Owner", "Owner")
                         .WithMany("Cats")
-                        .HasForeignKey("OwnerId");
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Owner");
                 });
