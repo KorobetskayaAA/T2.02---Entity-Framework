@@ -11,7 +11,8 @@ namespace MurrrcatConsoleCodeFirst
     {
         public string ConnectionString { get; }
 
-        public ConnectionStringManager(string connectionStringName = "DefaultConnection")
+        public ConnectionStringManager(string connectionStringName = "DefaultConnection",
+            string environmentVariableName = "DefaultConnection")
         {
             var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -24,7 +25,7 @@ namespace MurrrcatConsoleCodeFirst
             ConnectionString = string.Format(
                 config.GetConnectionString(connectionStringName),
                 userId, password
-            );
+            ) ?? Environment.GetEnvironmentVariable(environmentVariableName);
         }
     }
 }

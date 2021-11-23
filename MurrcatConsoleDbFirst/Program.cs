@@ -63,9 +63,9 @@ namespace MurrcatConsole
             catToUpdate.Price = 123456m;
             var catCategories = new List<int>()
             {
-                1, 3, 4
+                1, 3, 16
             };
-            UpdateCatWithCategories(catToUpdate, catCategories, catToUpdate.OwnerNavigation);
+            UpdateCatWithCategories(catToUpdate, catCategories, new Owner() { Id = 2 });
             PrintCat("murchik");
         }
 
@@ -249,17 +249,18 @@ namespace MurrcatConsole
             try
             {
                 cat.Owner = owner.Id;
+                cat.OwnerNavigation = null;
                 context.Update(cat);
                 context.SaveChanges();
 
                 var categoriesToRemove = context.CatCategories
-                    .Where(cc => !categoryIds.Any(cId => cc.Category == cId))
+                    .Where(cc => cc.Cat == cat.Id && !categoryIds.Any(cId => cc.Category == cId))
                     .ToList();
                 context.CatCategories.RemoveRange(categoriesToRemove);
                 context.SaveChanges();
 
                 var newCategories = categoryIds
-                    .Where(cId => !context.CatCategories.Any(cc => cc.Category == cId))
+                    .Where(cId => !context.CatCategories.Any(cc => cc.Cat == cat.Id && cc.Category == cId))
                     .Select(cId => new CatCategory() { Cat = cat.Id, Category = cId })
                     .ToList();
                 context.CatCategories.AddRange(newCategories);
