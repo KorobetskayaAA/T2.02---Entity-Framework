@@ -10,8 +10,8 @@ using MurrrcatConsoleCodeFirst.DAL;
 namespace MurrrcatConsoleCodeFirst.Migrations
 {
     [DbContext(typeof(MurrcatContext))]
-    [Migration("20211123135240_InitialCreateAnnotations")]
-    partial class InitialCreateAnnotations
+    [Migration("20211123192244_InitialCreateFluentApi")]
+    partial class InitialCreateFluentApi
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -56,7 +56,7 @@ namespace MurrrcatConsoleCodeFirst.Migrations
                     b.Property<decimal?>("OldPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("OwnerId")
+                    b.Property<int?>("OwnerId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
@@ -108,7 +108,7 @@ namespace MurrrcatConsoleCodeFirst.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Owner");
+                    b.ToTable("Owners");
                 });
 
             modelBuilder.Entity("CatCategory", b =>
@@ -130,9 +130,7 @@ namespace MurrrcatConsoleCodeFirst.Migrations
                 {
                     b.HasOne("MurrrcatConsoleCodeFirst.DAL.Owner", "Owner")
                         .WithMany("Cats")
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OwnerId");
 
                     b.Navigation("Owner");
                 });

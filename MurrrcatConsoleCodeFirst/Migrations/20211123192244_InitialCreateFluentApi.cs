@@ -2,7 +2,7 @@
 
 namespace MurrrcatConsoleCodeFirst.Migrations
 {
-    public partial class InitialCreateAnnotations : Migration
+    public partial class InitialCreateFluentApi : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,7 +20,7 @@ namespace MurrrcatConsoleCodeFirst.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Owner",
+                name: "Owners",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
@@ -30,7 +30,7 @@ namespace MurrrcatConsoleCodeFirst.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Owner", x => x.Id);
+                    table.PrimaryKey("PK_Owners", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -44,17 +44,17 @@ namespace MurrrcatConsoleCodeFirst.Migrations
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     OldPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Description = table.Column<string>(type: "ntext", nullable: true),
-                    OwnerId = table.Column<int>(type: "int", nullable: false)
+                    OwnerId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cats", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Cats_Owner_OwnerId",
+                        name: "FK_Cats_Owners_OwnerId",
                         column: x => x.OwnerId,
-                        principalTable: "Owner",
+                        principalTable: "Owners",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -104,7 +104,7 @@ namespace MurrrcatConsoleCodeFirst.Migrations
                 name: "Cats");
 
             migrationBuilder.DropTable(
-                name: "Owner");
+                name: "Owners");
         }
     }
 }

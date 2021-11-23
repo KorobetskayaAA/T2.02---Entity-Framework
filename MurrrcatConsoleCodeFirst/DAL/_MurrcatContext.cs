@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MurrrcatConsoleCodeFirst.DAL.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,6 +14,7 @@ namespace MurrrcatConsoleCodeFirst.DAL
 
         public DbSet<Cat> Cats { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Owner> Owners { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -24,7 +26,9 @@ namespace MurrrcatConsoleCodeFirst.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfiguration(new CatConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new OwnerConfiguration());
         }
     }
 }
