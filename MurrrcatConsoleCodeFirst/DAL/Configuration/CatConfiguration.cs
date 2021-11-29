@@ -10,6 +10,8 @@ namespace MurrrcatConsoleCodeFirst.DAL.Configuration
     {
         public void Configure(EntityTypeBuilder<Cat> builder)
         {
+            builder.ToTable("Cat");
+
             // необязательно - сработает convention
             builder.HasKey("Id");
 
@@ -32,7 +34,9 @@ namespace MurrrcatConsoleCodeFirst.DAL.Configuration
             // необязательно - сработает convention
             builder
                 .HasMany(cat => cat.Categories)
-                .WithMany(category => category.Cats);
+                .WithMany(category => category.Cats)
+            // но если надо задать имя - придется прописать
+                .UsingEntity(e => e.ToTable("Cat_Category"));
         }
     }
 }

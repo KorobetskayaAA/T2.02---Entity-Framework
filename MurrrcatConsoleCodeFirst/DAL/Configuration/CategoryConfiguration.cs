@@ -10,6 +10,8 @@ namespace MurrrcatConsoleCodeFirst.DAL.Configuration
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
+            builder.ToTable("Category");
+
             // необязательно - сработает convention
             builder.HasKey(c => c.Id);
 

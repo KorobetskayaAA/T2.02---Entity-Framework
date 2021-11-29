@@ -10,6 +10,8 @@ namespace MurrrcatConsoleCodeFirst.DAL.Configuration
     {
         public void Configure(EntityTypeBuilder<Owner> builder)
         {
+            builder.ToTable("Owner");
+
             // необязательно - сработает convention
             builder.HasKey("Id");
 
